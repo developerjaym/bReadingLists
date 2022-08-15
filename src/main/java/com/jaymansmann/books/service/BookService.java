@@ -56,11 +56,16 @@ public class BookService {
         return bookRepository.findAllByGenres_Id(genreId).stream().map(this::mapBookToBookResponseDTO).toList();
     }
 
+    public List<Book> findAllByBookIds(Iterable<Long> bookIds) {
+        if(!bookRepository.existsAllByIdIn(bookIds)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        return bookRepository.findAllById(bookIds);
+    }
+
     private BookResponseDTO mapBookToBookResponseDTO(Book book) {
         return modelMapper.map(book, BookResponseDTO.class);
     }
 
-    public List<Book> findAllByBookIds(Iterable<Long> bookIds) {
-        return bookRepository.findAllById(bookIds);
-    }
 }

@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findAllByGenres_Id(Long genreId);
+
+    boolean existsAllByIdIn(Iterable<Long> bookIds);
 }
